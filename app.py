@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import pickle
+import joblib
 
 # st.set_page_config must be the first Streamlit command
 st.set_page_config(page_title="UK Accident Severity Predictor", page_icon="🚗", layout="centered")
@@ -9,10 +9,9 @@ st.set_page_config(page_title="UK Accident Severity Predictor", page_icon="🚗"
 # Cache model loading to avoid re-loading on every user rerun
 @st.cache_resource
 def load_assets():
-    with open('lr_model.pkl', 'rb') as f_model:
-        model = pickle.load(f_model)
-    with open('scaler.pkl', 'rb') as f_scaler:
-        scaler = pickle.load(f_scaler)
+    # Use joblib to load the files directly
+    model = joblib.load('lr_model.pkl')
+    scaler = joblib.load('scaler.pkl')
     return model, scaler
 
 model, scaler = load_assets()
